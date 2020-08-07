@@ -13,6 +13,7 @@ namespace LogFileViewer
     public partial class Form_FindReplace : Form
     {
         Form1 mainForm;
+        Form_FindAllResult findResultForm;
         private int findmode;
         public Form_FindReplace(Form1 form1)
         {
@@ -45,6 +46,13 @@ namespace LogFileViewer
         private void Button_Replace_Click(object sender, EventArgs e)
         {
             mainForm.ReplaceContent(this.TextBox_ReplaceContent.Text);
+        }
+
+        private void Button_FindAll_Click(object sender, EventArgs e)
+        {
+            if (findResultForm == null)
+                findResultForm = new Form_FindAllResult();
+
         }
     }
 }

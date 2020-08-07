@@ -76,6 +76,7 @@
             this.Button_FindAll.TabIndex = 3;
             this.Button_FindAll.Text = "查找全部";
             this.Button_FindAll.UseVisualStyleBackColor = true;
+            this.Button_FindAll.Click += new System.EventHandler(this.Button_FindAll_Click);
             // 
             // Button_Replace
             // 

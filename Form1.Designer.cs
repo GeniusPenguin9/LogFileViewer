@@ -43,14 +43,16 @@
             this.Menu_Paste = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Find = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Replace = new System.Windows.Forms.ToolStripMenuItem();
-            this.ProcessBar = new System.Windows.Forms.ProgressBar();
+            this.DisplayPositionBar = new System.Windows.Forms.TrackBar();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DisplayPositionBar)).BeginInit();
             this.SuspendLayout();
             // 
             // richTextBox1
             // 
             this.richTextBox1.Location = new System.Drawing.Point(2, 33);
             this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
             this.richTextBox1.Size = new System.Drawing.Size(1292, 698);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
@@ -130,57 +132,60 @@
             // 
             this.Menu_Undo.Name = "Menu_Undo";
             this.Menu_Undo.Size = new System.Drawing.Size(180, 22);
-            this.Menu_Undo.Text = "撤消";
+            this.Menu_Undo.Text = "撤消(&Z)";
             this.Menu_Undo.Click += new System.EventHandler(this.Menu_Undo_Click);
             // 
             // Menu_Cut
             // 
             this.Menu_Cut.Name = "Menu_Cut";
             this.Menu_Cut.Size = new System.Drawing.Size(180, 22);
-            this.Menu_Cut.Text = "剪切";
+            this.Menu_Cut.Text = "剪切(&X)";
             this.Menu_Cut.Click += new System.EventHandler(this.Menu_Cut_Click);
             // 
             // Menu_Copy
             // 
             this.Menu_Copy.Name = "Menu_Copy";
             this.Menu_Copy.Size = new System.Drawing.Size(180, 22);
-            this.Menu_Copy.Text = "复制";
+            this.Menu_Copy.Text = "复制(&C)";
             this.Menu_Copy.Click += new System.EventHandler(this.Menu_Copy_Click);
             // 
             // Menu_Paste
             // 
             this.Menu_Paste.Name = "Menu_Paste";
             this.Menu_Paste.Size = new System.Drawing.Size(180, 22);
-            this.Menu_Paste.Text = "粘贴";
+            this.Menu_Paste.Text = "粘贴(&V)";
             this.Menu_Paste.Click += new System.EventHandler(this.Menu_Paste_Click);
             // 
             // Menu_Find
             // 
             this.Menu_Find.Name = "Menu_Find";
             this.Menu_Find.Size = new System.Drawing.Size(180, 22);
-            this.Menu_Find.Text = "查找";
+            this.Menu_Find.Text = "查找(&F)";
             this.Menu_Find.Click += new System.EventHandler(this.Menu_Find_Click);
             // 
             // Menu_Replace
             // 
             this.Menu_Replace.Name = "Menu_Replace";
             this.Menu_Replace.Size = new System.Drawing.Size(180, 22);
-            this.Menu_Replace.Text = "替换";
+            this.Menu_Replace.Text = "替换(&H)";
             this.Menu_Replace.Click += new System.EventHandler(this.Menu_Replace_Click);
             // 
-            // ProcessBar
+            // DisplayPositionBar
             // 
-            this.ProcessBar.Location = new System.Drawing.Point(1113, 2);
-            this.ProcessBar.Name = "ProcessBar";
-            this.ProcessBar.Size = new System.Drawing.Size(170, 23);
-            this.ProcessBar.TabIndex = 2;
+            this.DisplayPositionBar.AutoSize = false;
+            this.DisplayPositionBar.Location = new System.Drawing.Point(1011, -1);
+            this.DisplayPositionBar.Maximum = 100;
+            this.DisplayPositionBar.Name = "DisplayPositionBar";
+            this.DisplayPositionBar.Size = new System.Drawing.Size(283, 26);
+            this.DisplayPositionBar.TabIndex = 3;
+            this.DisplayPositionBar.Scroll += new System.EventHandler(this.DisplayPositionBar_Scroll);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1295, 732);
-            this.Controls.Add(this.ProcessBar);
+            this.Controls.Add(this.DisplayPositionBar);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -188,6 +193,7 @@
             this.Text = "Form1";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DisplayPositionBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -210,7 +216,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_Paste;
         private System.Windows.Forms.ToolStripMenuItem Menu_Find;
         private System.Windows.Forms.ToolStripMenuItem Menu_Replace;
-        private System.Windows.Forms.ProgressBar ProcessBar;
+        private System.Windows.Forms.TrackBar DisplayPositionBar;
     }
 }
 
