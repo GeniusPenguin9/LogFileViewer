@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO.MemoryMappedFiles;
+
 
 namespace LogFileViewer
 {
@@ -55,17 +55,20 @@ namespace LogFileViewer
                 FileInfo fi = new FileInfo(curfilename);
                 file_size = fi.Length;
 
+                /*使用MemoryMappedFile方案*/
                 //try
                 //{
                 //    mmap.Dispose();
                 //}
                 //catch(System.NullReferenceException) {  };
 
-                ////richTextBox1.LoadFile(curfilename, RichTextBoxStreamType.PlainText);//直接读取的方法会在大文件卡住
-
-
                 //mmap = MemoryMappedFile.CreateFromFile(curfilename, FileMode.Open, "MMAP");
                 //accessor = mmap.CreateViewAccessor();
+
+                /*使用RichTextBox自带方法*/
+                //richTextBox1.LoadFile(curfilename, RichTextBoxStreamType.PlainText);//直接读取的方法会在大文件卡住
+
+                /*使用FileStream方案*/
                 OpenFileStream(curfilename);
                 int read_byte = LoadFile_Display();
                 RefreshDisplayContent(read_byte);
@@ -78,8 +81,14 @@ namespace LogFileViewer
         {
             if (curfilename.Length > 0)
             {
-                richTextBox1.SaveFile(curfilename, RichTextBoxStreamType.PlainText);
+                /*使用RichTextBox自带方法*/
+                //richTextBox1.SaveFile(curfilename, RichTextBoxStreamType.PlainText);
 
+                /*使用FileStream方案*/
+                var char_arr = richTextBox1.Text.ToCharArray();
+                display_buffer = Encoding.ASCII.GetBytes(char_arr, 0, char_arr.Length);
+                fs.Seek(display_position, SeekOrigin.Begin);
+                fs.Write(display_buffer, 0, char_arr.Length);
             }
             else
                 Menu_SaveAs_Click(sender, e);
@@ -145,7 +154,7 @@ namespace LogFileViewer
             RefreshDisplayContent(read_byte);
         }
 
-        /* ******************************************************* */
+        /* *********************************************************************************************************************************************************************** */
         public void FindContent(string target_content, int findmode)
         {
             var find_length = 0;
@@ -184,13 +193,36 @@ namespace LogFileViewer
             MessageBox.Show("已搜索全文，未找到内容!");
         }
 
-        public void FindContent_All(Form_FindReplace resultForm)
+        public void FindContent_All(string target_content, int findmode)
         {
-            //fs.Seek(0, SeekOrigin.Begin);
-            //while(fs.Length <= fs.Length)
-            //{
-            //    fs.Read()
-            //}
+            var findAllForm = new Form_FindAllResult();
+
+            findAllForm.Show();
+            findAllForm.ClearContent();
+
+            if (fs == null)
+                fs = new FileStream(curfilename, FileMode.Open, FileAccess.ReadWrite);
+            else
+            {
+                fs.Dispose();
+                fs = new FileStream(curfilename, FileMode.Open, FileAccess.ReadWrite);
+            }
+
+            var sr = new StreamReader(fs);
+            {
+                string line;
+                var line_num = 0;
+                while((line = sr.ReadLine())!=null)
+                {
+                    line_num++;
+                    if (line.Contains(target_content))
+                    {
+                        findAllForm.AddOneLine($"Line {line_num}:");
+                        findAllForm.AddOneLine(line); 
+                    }
+                }
+            }
+            sr.Dispose();
         }
 
         public void ReplaceContent(string replace_s)
@@ -208,11 +240,11 @@ namespace LogFileViewer
         private void OpenFileStream(string path)
         {
             if (fs == null)
-                fs = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);
+                fs = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
             else
             {
                 fs.Dispose();
-                fs = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);
+                fs = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
             }
             display_position = 0;
         }

@@ -16,5 +16,15 @@ namespace LogFileViewer
         {
             InitializeComponent();
         }
+        public void ClearContent()
+        {
+            this.RichTextBox_FindAll.Clear();
+        }
+
+        public void AddOneLine(string s)
+        {
+            this.RichTextBox_FindAll.AppendText(s);
+            this.RichTextBox_FindAll.AppendText("\r\n");
+        }
     }
 }
